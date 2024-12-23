@@ -1,14 +1,20 @@
 {
   "manifest_version": 3,
   "name": "MercadoPago: mayor privacidad",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Oculta la actividad reciente y el dinero disponible al cargar la home de mercadopago.",
   "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": ["https://www.mercadopago.com.ar/home"],
       "js": ["content.js"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
