@@ -1,5 +1,5 @@
-// elementos a ocultar
-const SELECTORS = ['.activities__list', '.banking-balance', '.banking-balance__assets']
+// elementos a ocultar (clases)
+const SELECTORS = ['activities__list', 'banking-balance', 'banking-balance__assets']
 
 // Crear elementos
 const span = document.createElement('span')
@@ -31,8 +31,16 @@ button.addEventListener('click', () => {
 
   // mostrar / ocultar selectores
   SELECTORS.forEach(selector => {
-    const curr = document.querySelector(selector)
-    if (curr) curr.style.display = isHidden ? '' : 'none'
+    let isActive = true
+
+    chrome.storage.local.get([selector]).then((result) => {
+      isActive = result[selector]
+      
+      if (isActive) {
+        const curr = document.querySelector(`.${selector}`)
+        if (curr) curr.style.display = isHidden ? '' : 'none'
+      }
+    })
   })
 
   // actualizar elementos
@@ -42,7 +50,7 @@ button.addEventListener('click', () => {
 
 // Ocultar información al cargar la página
 SELECTORS.forEach(selector => {
-  const curr = document.querySelector(selector)
+  const curr = document.querySelector(`.${selector}`)
   if (curr) curr.style.display = 'none'
 })
 
